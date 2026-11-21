@@ -1,5 +1,15 @@
-import { test, expect } from '../../fixtures/test-fixtures';
+import { test } from '../../fixtures/test-fixtures';
 import { PAYMENT_METHOD } from '../../data/test-data';
+import { invoiceAddFirstProductToCart } from '../../pages/invoiceHistory/invoiceAddFirstProductToCart';
+import { invoiceFillBillingAddress } from '../../pages/invoiceHistory/invoiceFillBillingAddress';
+import { invoiceLogin } from '../../pages/invoiceHistory/invoiceLogin';
+import { invoiceOpenInvoices } from '../../pages/invoiceHistory/invoiceOpenInvoices';
+import { invoicePlaceOrder } from '../../pages/invoiceHistory/invoicePlaceOrder';
+import { invoiceProceedToCheckout } from '../../pages/invoiceHistory/invoiceProceedToCheckout';
+import { invoiceReadInvoiceNumber } from '../../pages/invoiceHistory/invoiceReadInvoiceNumber';
+import { invoiceSelectPaymentMethod } from '../../pages/invoiceHistory/invoiceSelectPaymentMethod';
+import { invoiceVerifyInvoiceListed } from '../../pages/invoiceHistory/invoiceVerifyInvoiceListed';
+import { invoiceVerifyNavigationMenu } from '../../pages/invoiceHistory/invoiceVerifyNavigationMenu';
 
 test.describe('E2E-12: invoice history', () => {
   test('Order appears in the invoice history @e2e @orders', async ({
@@ -12,17 +22,17 @@ test.describe('E2E-12: invoice history', () => {
     registeredUser,
   }) => {
     test.setTimeout(90_000);
-    await loginPage.login(registeredUser.email, registeredUser.password);
-    await expect(header.navMenu).toBeVisible();
+    await invoiceLogin(loginPage, registeredUser);
+    await invoiceVerifyNavigationMenu(header);
 
-    await productsPage.addFirstProductToCart();
-    await cartPage.proceedToCheckout();
-    await checkoutPage.fillBillingAddress();
-    await checkoutPage.selectPaymentMethod(PAYMENT_METHOD.cashOnDelivery);
-    await checkoutPage.placeOrder();
+    await invoiceAddFirstProductToCart(productsPage);
+    await invoiceProceedToCheckout(cartPage);
+    await invoiceFillBillingAddress(checkoutPage);
+    await invoiceSelectPaymentMethod(checkoutPage, PAYMENT_METHOD.cashOnDelivery);
+    await invoicePlaceOrder(checkoutPage);
 
-    const invoiceNumber = await checkoutPage.readInvoiceNumber();
-    await header.openInvoices();
-    await expect(page.getByText(invoiceNumber).first()).toBeVisible();
+    const invoiceNumber = await invoiceReadInvoiceNumber(checkoutPage);
+    await invoiceOpenInvoices(header);
+    await invoiceVerifyInvoiceListed(page, invoiceNumber);
   });
 });
