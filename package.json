@@ -1,0 +1,25 @@
+{
+  "name": "spark-rock-playwright",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TypeScript Playwright test automation framework",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:chromium": "playwright test --project=chromium",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit",
+    "test:log": "playwright test --reporter=list > test-run.log 2>&1",
+    "test:video:log": "playwright test --grep @video --reporter=list > test-run.log 2>&1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.3.0",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.10"
+  }
+}
