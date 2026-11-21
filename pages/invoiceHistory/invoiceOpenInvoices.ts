@@ -1,5 +1,5 @@
 import type { Header } from '../Header';
 
-export async function invoiceOpenInvoices(header: Header): Promise<void> {
-  await header.openInvoices();
+export async function invoiceOpenInvoices(this: Header): Promise<void> {
+  await this.navMenu.page().goto('/account/invoices');
 }

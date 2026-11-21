@@ -22,17 +22,17 @@ test.describe('E2E-12: invoice history', () => {
     registeredUser,
   }) => {
     test.setTimeout(90_000);
-    await invoiceLogin(loginPage, registeredUser);
-    await invoiceVerifyNavigationMenu(header);
+    await invoiceLogin.call(loginPage, registeredUser.email, registeredUser.password);
+    await invoiceVerifyNavigationMenu.call(header);
 
-    await invoiceAddFirstProductToCart(productsPage);
-    await invoiceProceedToCheckout(cartPage);
-    await invoiceFillBillingAddress(checkoutPage);
-    await invoiceSelectPaymentMethod(checkoutPage, PAYMENT_METHOD.cashOnDelivery);
-    await invoicePlaceOrder(checkoutPage);
+    await invoiceAddFirstProductToCart.call(productsPage);
+    await invoiceProceedToCheckout.call(cartPage);
+    await invoiceFillBillingAddress.call(checkoutPage);
+    await invoiceSelectPaymentMethod.call(checkoutPage, PAYMENT_METHOD.cashOnDelivery);
+    await invoicePlaceOrder.call(checkoutPage);
 
-    const invoiceNumber = await invoiceReadInvoiceNumber(checkoutPage);
-    await invoiceOpenInvoices(header);
-    await invoiceVerifyInvoiceListed(page, invoiceNumber);
+    const invoiceNumber = await invoiceReadInvoiceNumber.call(checkoutPage);
+    await invoiceOpenInvoices.call(header);
+    await invoiceVerifyInvoiceListed.call(page, invoiceNumber);
   });
 });
